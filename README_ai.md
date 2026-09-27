@@ -40,7 +40,7 @@
 | --- | --- |
 | 系统 | Windows 10 / 11；Android + Termux |
 | Python | 3.8 或更高（Windows 验证环境：3.13.5） |
-| 依赖库 | `openpyxl`（读写 xlsx）、`Pillow`（图片转 PDF） |
+| 依赖库 | `openpyxl`（读写 xlsx）、`Pillow`（图片转 PDF）、`pypdf`（PDF 页操作） |
 
 `python --version` 可查看当前版本。若 Windows 下提示找不到 `python`，
 请重装 Python 并勾选 **Add Python to PATH**，或改用 `py` 命令。
@@ -69,6 +69,7 @@ python -m pip install -r requirements.txt
 ```
 openpyxl>=3.0
 Pillow>=9.0
+pypdf>=3.0
 ```
 
 > Termux 下若要读写手机共享存储（如 `/sdcard/Download`），
@@ -194,7 +195,8 @@ ToolsBox/
 ├── tools/                       # 各工具独立文件夹
 │   ├── excel_extract/           # 【工具 1】xlsx 数据提取
 │   ├── image_to_pdf/            # 【工具 2】图片转 PDF
-│   └── excel_multi_extract/     # 【工具 3】多表行列提取
+│   ├── excel_multi_extract/     # 【工具 3】多表行列提取
+│   └── pdf_page/                # 【工具 4】PDF 单页提取
 ├── output/                      # 默认输出目录（自动创建）
 └── .backup/legacy-android/      # 移植前的 Android 专用版本存档（不参与运行）
 ```
@@ -261,6 +263,25 @@ ToolsBox/
 - 输出默认保存到 `output/`，文件名形如 `原文件名_合并提取.xlsx`；
   不同工作表输出为不同 sheet，重名 sheet 自动加序号。
 - 序号输入支持 `1-3,5` 这种写法，中英文逗号、空格都能识别。
+
+### 工具 4：PDF 单页提取
+
+用途：从 PDF 中取出指定的一页，另存为一个只含该页的新 PDF。
+
+| 步骤 | 内容 |
+| --- | --- |
+| 1 | 选择 PDF 文件：输入完整路径；**Android 模式**下还可先浏览常见目录挑选 |
+| 2 | 读取该 PDF 并显示总页数 |
+| 3 | 指定要提取的页码（1 起，超出范围会提示重输） |
+| 4 | 确认输出路径后另存 |
+
+说明：
+
+- 输出默认保存到 `output/`，文件名形如 `原文件名_page3.pdf`。
+- 页码用 `ui.ask_int(min_value=1, max_value=总页数)` 校验；
+  直接回车即取消，输入流结束也会干净退出，不会死循环。
+- 依赖 `pypdf`，缺失时给出安装指引并返回主菜单（不影响其它工具）。
+- 只处理单页；不改变原文件，输出始终是新文件。
 
 ---
 

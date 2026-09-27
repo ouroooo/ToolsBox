@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/badge/License-Unlicense-blue.svg)](UNLICENSE)
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Android-lightgrey.svg)](#-快速开始)
-[![Dependencies](https://img.shields.io/badge/dependencies-openpyxl%20%7C%20Pillow-green.svg)](requirements.txt)
+[![Dependencies](https://img.shields.io/badge/dependencies-openpyxl%20%7C%20Pillow%20%7C%20pypdf-green.svg)](requirements.txt)
 
 </div>
 
@@ -20,6 +20,7 @@ ToolsBox 把几个日常处理表格和图片的小需求，做成了一个开�
 - 📊 **xlsx 数据提取** —— 按某列条件（如「班级 = 15」）筛选后导出新表
 - 🖼️ **图片转 PDF** —— 多张 jpg / png 合并成一个 PDF，可选 A4 自适应
 - 📚 **多表行列提取** —— 多文件 / 多工作表按行、列条件提取并合并到一个新表
+- 📄 **PDF 单页提取** —— 从 PDF 中取出指定的一页，另存为新的 PDF
 
 不需要 GUI、不需要数据库、不联网。启动后输入序号即可使用。
 
@@ -29,7 +30,7 @@ ToolsBox 把几个日常处理表格和图片的小需求，做成了一个开�
 | --- | --- |
 | 🪟🤖 **双平台单代码库** | 同一套代码跑在 Windows 与 Android (Termux) 上，启动时确认平台即可，差异（清屏命令、常见目录、路径示例）全部自动切换 |
 | 🧭 **零学习成本** | 全程菜单式交互，每步都有提示和预览；序号支持 `1-3,5` 这种范围写法 |
-| 🪶 **依赖极少** | 只需要 `openpyxl` 与 `Pillow`，其余全部是标准库 |
+| 🪶 **依赖极少** | 只需要 `openpyxl`、`Pillow` 与 `pypdf`，其余全部是标准库 |
 | 🧩 **易于扩展** | 新增一个工具只需建一个文件夹 + 在注册表登记一行，互不影响 |
 | 🖥️ **终端友好** | 输出为纯文本，不使用 ANSI 转义序列，老旧 Windows cmd 下也不会满屏乱码 |
 | 🛡️ **不易崩** | 单个工具出错会被捕获并返回主菜单；输入流意外结束（EOF）也会干净退出而不是死循环 |
@@ -40,13 +41,14 @@ ToolsBox 把几个日常处理表格和图片的小需求，做成了一个开�
 ========================================================
                        ToolsBox
 ========================================================
-  版本 0.2.0  ·  平台 Windows  ·  输入序号选择工具  ·  输入 0 退出
+  版本 0.3.0  ·  平台 Windows  ·  输入序号选择工具  ·  输入 0 退出
 
 请选择工具
 --------------------------------------------------------
   [1] xlsx 数据提取  按列筛选（如班级=15）后导出新表
   [2] 图片转 PDF  单个或多个 jpg/png/jpeg 合并为 PDF
   [3] 多表行列提取  多 xlsx / 多工作表按行或列条件提取并合并
+  [4] PDF 单页提取  把 PDF 中的指定一页另存为新的 PDF
   [0] 退出
 --------------------------------------------------------
 请输入序号: 1
@@ -145,6 +147,14 @@ python main.py --platform=android
 - 每个工作表输出为独立 sheet，重名自动加序号
 - 输出：`output/原文件名_合并提取.xlsx`
 
+### 4️⃣ PDF 单页提取
+
+从 PDF 中取出指定的一页，另存为一个只含该页的新 PDF。
+
+- 自动读取并显示原 PDF 的总页数，页码带范围校验
+- 输出默认保存到 `output/原文件名_pageN.pdf`
+- **Android 模式**下可浏览常见目录挑选 PDF
+
 ## 📁 目录结构
 
 ```
@@ -162,7 +172,8 @@ ToolsBox/
 ├── tools/                       # 各工具独立文件夹
 │   ├── excel_extract/           # 【工具 1】xlsx 数据提取
 │   ├── image_to_pdf/            # 【工具 2】图片转 PDF
-│   └── excel_multi_extract/     # 【工具 3】多表行列提取
+│   ├── excel_multi_extract/     # 【工具 3】多表行列提取
+│   └── pdf_page/                # 【工具 4】PDF 单页提取
 └── output/                      # 默认输出目录（自动创建）
 ```
 

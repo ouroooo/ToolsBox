@@ -11,12 +11,14 @@
 from tools import excel_extract
 from tools import excel_multi_extract
 from tools import image_to_pdf
+from tools import pdf_page
 
 # 全部工具平铺登记。新增工具时在此登记即可。
 TOOLS = [
     excel_extract,
     image_to_pdf,
     excel_multi_extract,
+    pdf_page,
 ]
 
 

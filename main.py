@@ -26,7 +26,7 @@ from core import registry      # noqa: E402
 from core import runtime       # noqa: E402
 
 APP_NAME = "ToolsBox"
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 
 PLATFORM_FLAG = "--platform="
 
